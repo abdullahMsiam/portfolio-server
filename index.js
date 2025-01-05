@@ -28,6 +28,9 @@ async function run() {
     //all collections
     const skillCollection = client.db("portfoliodb").collection("skills");
     const projectsCollection = client.db("portfoliodb").collection("projects");
+    const qualificationCollection = client
+      .db("portfoliodb")
+      .collection("qualifications");
 
     // skills request
     app.get("/skills", async (req, res) => {
@@ -64,6 +67,69 @@ async function run() {
 
         if (result.matchedCount === 0) {
           return res.status(404).send({ message: "Project not found" });
+        }
+
+        res.send(result); // Return the updated document
+      } catch (err) {
+        res.send(err.message);
+      }
+    });
+    // -------------- delete request ---------------->
+    app.delete("/projects/:id", async (req, res) => {
+      const id = req.params.id;
+      try {
+        const result = await projectsCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Project not found" });
+        }
+        res.send(result);
+      } catch (err) {
+        res.send(err.message);
+      }
+    });
+
+    // --------------> qualification request ----------------> post request
+    app.post("/qualifications", async (req, res) => {
+      const qualificationData = req.body;
+      const result = await qualificationCollection.insertOne(qualificationData);
+      res.send(result);
+    });
+    // --------------> qualification request ----------------> get request
+    app.get("/qualifications", async (req, res) => {
+      const result = await qualificationCollection.find().toArray();
+      res.send(result);
+    });
+
+    // --------------> qualification request ----------------> delete request
+    app.delete("/qualifications/:id", async (req, res) => {
+      const id = req.params.id;
+      try {
+        const result = await qualificationCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Qualification not found" });
+        }
+        res.send(result);
+      } catch (err) {
+        res.send(err.message);
+      }
+    });
+
+    // --------------> qualification request ----------------> update request
+    app.put("/qualifications/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedData = req.body;
+      try {
+        const result = await qualificationCollection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: updatedData }
+        );
+
+        if (result.matchedCount === 0) {
+          return res.status(404).send({ message: "Qualification not found" });
         }
 
         res.send(result); // Return the updated document
