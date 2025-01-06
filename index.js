@@ -57,7 +57,6 @@ async function run() {
     app.put("/projects/:id", async (req, res) => {
       const id = req.params.id;
       const updatedData = req.body;
-      console.log(updatedData);
 
       try {
         const result = await projectsCollection.updateOne(
