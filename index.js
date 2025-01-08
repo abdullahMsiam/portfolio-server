@@ -28,6 +28,7 @@ const run = async () => {
     //all collections
     const skillCollection = client.db("portfoliodb").collection("skills");
     const projectsCollection = client.db("portfoliodb").collection("projects");
+    const blogsCollection = client.db("portfoliodb").collection("blogs");
     const qualificationCollection = client
       .db("portfoliodb")
       .collection("qualifications");
@@ -132,6 +133,35 @@ const run = async () => {
         }
 
         res.send(result); // Return the updated document
+      } catch (err) {
+        res.send(err.message);
+      }
+    });
+
+    // ------------------> blogs ------------------>
+    app.post("/blogs", async (req, res) => {
+      const blogData = req.body;
+      const result = await blogsCollection.insertOne(blogData);
+      res.send(result);
+    });
+    app.get("/blogs", async (req, res) => {
+      const result = await blogsCollection.find().toArray();
+      res.send(result);
+    });
+    app.get("/blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await blogsCollection.findOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
+    app.put("/blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateBlog = req.body;
+      try {
+        const result = await blogsCollection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: updateBlog }
+        );
+        res.send(result);
       } catch (err) {
         res.send(err.message);
       }
