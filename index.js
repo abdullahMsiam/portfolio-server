@@ -166,6 +166,20 @@ const run = async () => {
         res.send(err.message);
       }
     });
+    app.delete("/blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      try {
+        const result = await blogsCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Blog not found" });
+        }
+        res.send(result);
+      } catch (err) {
+        res.send(err.message);
+      }
+    });
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
