@@ -16,7 +16,6 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-// const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0=&retryWrites=true&w=majority`;
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0`;
 
@@ -196,26 +195,6 @@ const run = async () => {
 };
 run().catch(console.dir);
 
-// async function run() {
-//   try {
-//     console.log("Attempting to connect to MongoDB..."); // Add this to see if it starts
-//     await client.connect();
-    
-//     await client.db("admin").command({ ping: 1 });
-//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
-//     // Start Express ONLY after DB is connected
-//     app.listen(port, () => {
-//       console.log(`Portfolio server running on port ${port}`);
-//     });
-
-//   } catch (error) {
-//     console.error("CRITICAL CONNECTION ERROR:", error.message);
-//     process.exit(1); // Stop the app if DB fails
-//   }
-// }
-
-run(); 
 
 app.get("/", (req, res) => {
   res.send("portfolio is running");
