@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0`;
+const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0`;
 
 
 
