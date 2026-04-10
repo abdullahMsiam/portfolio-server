@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const corsConfig = {
   origin: "*",
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
@@ -18,6 +19,7 @@ dns.setServers([
 require("dotenv").config();
 
 //middleware
+app.options("*", cors(corsConfig)); 
 app.use(cors(corsConfig));
 app.use(express.json());
 
