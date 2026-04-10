@@ -1,8 +1,14 @@
 const express = require("express");
+const dns = require("dns");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
+
+dns.setServers([ 
+  "1.1.1.1", 
+  "8.8.8.8",
+]); 
 
 require("dotenv").config();
 
@@ -10,9 +16,13 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0=&retryWrites=true&w=majority`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8l0xr.mongodb.net/?appName=Cluster0`;
+
+
+
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -22,7 +32,6 @@ const client = new MongoClient(uri, {
 });
 
 const run = async () => {
-  try {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     //all collections
@@ -182,16 +191,31 @@ const run = async () => {
     });
 
     // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log(
-    //   "Pinged your deployment. You successfully connected to MongoDB!"
-    // );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
-  }
+    await client.db("portfoliodb").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!" );
 };
 run().catch(console.dir);
+
+// async function run() {
+//   try {
+//     console.log("Attempting to connect to MongoDB..."); // Add this to see if it starts
+//     await client.connect();
+    
+//     await client.db("admin").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+//     // Start Express ONLY after DB is connected
+//     app.listen(port, () => {
+//       console.log(`Portfolio server running on port ${port}`);
+//     });
+
+//   } catch (error) {
+//     console.error("CRITICAL CONNECTION ERROR:", error.message);
+//     process.exit(1); // Stop the app if DB fails
+//   }
+// }
+
+run(); 
 
 app.get("/", (req, res) => {
   res.send("portfolio is running");
