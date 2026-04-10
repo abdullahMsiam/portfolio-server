@@ -5,10 +5,10 @@ const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3001;
 
-// dns.setServers([ 
-//   "1.1.1.1", 
-//   "8.8.8.8",
-// ]); 
+dns.setServers([ 
+  "1.1.1.1", 
+  "8.8.8.8",
+]); 
 
 require("dotenv").config();
 
