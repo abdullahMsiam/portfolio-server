@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 });
 
 const corsConfig = {
-  origin: "*",
+  origin: "https://ams-porfolio.vercel.app/",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
