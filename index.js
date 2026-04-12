@@ -22,10 +22,10 @@ const corsConfig = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-dns.setServers([ 
-  "1.1.1.1", 
-  "8.8.8.8",
-]); 
+// dns.setServers([ 
+//   "1.1.1.1", 
+//   "8.8.8.8",
+// ]); 
 
 require("dotenv").config();
 
