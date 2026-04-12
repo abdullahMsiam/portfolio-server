@@ -15,12 +15,12 @@ app.use((req, res, next) => {
   next();
 });
 
-const corsConfig = {
-  origin: "https://ams-porfolio.vercel.app/",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+// const corsConfig = {
+//   origin: "https://ams-porfolio.vercel.app/",
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// };
 
 dns.setServers([ 
   "1.1.1.1", 
@@ -30,8 +30,8 @@ dns.setServers([
 require("dotenv").config();
 
 //middleware
-app.options("*", cors(corsConfig)); 
-app.use(cors(corsConfig));
+// app.options("*", cors(corsConfig)); 
+app.use(cors());
 app.use(express.json());
 
 
