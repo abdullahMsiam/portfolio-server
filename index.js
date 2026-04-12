@@ -15,23 +15,23 @@ app.use((req, res, next) => {
   next();
 });
 
-const corsConfig = {
-  origin: "*",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+// const corsConfig = {
+//   origin: "*",
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// };
 
-// dns.setServers([ 
-//   "1.1.1.1", 
-//   "8.8.8.8",
-// ]); 
+dns.setServers([ 
+  "1.1.1.1", 
+  "8.8.8.8",
+]); 
 
 require("dotenv").config();
 
 //middleware
 app.options("*", cors(corsConfig)); 
-app.use(cors(corsConfig));
+// app.use(cors(corsConfig));
 app.use(express.json());
 
 
