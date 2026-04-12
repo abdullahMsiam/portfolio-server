@@ -14,6 +14,18 @@ const cors = require("cors");
 //   }
 //   next();
 // });
+app.use((req, res, next) => {
+  // Allow your specific frontend domain
+  res.setHeader("Access-Control-Allow-Origin", "https://ams-porfolio.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  // Handle Preflight OPTIONS request immediately
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
 
 // const corsConfig = {
 //   origin: "https://ams-porfolio.vercel.app/",
