@@ -4,6 +4,17 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const cors = require("cors");
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
+
 const corsConfig = {
   origin: "*",
   credentials: true,
@@ -234,19 +245,39 @@ app.get("/projects", async (req, res) => {
   res.send(result);
 });
 
+
 app.post("/projects", async (req, res) => {
+  console.log(req.body);
   const database = await connectDB();
   const result = await database.collection("projects").insertOne(req.body);
   res.send(result);
 });
 
+
 app.put("/projects/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+  console.log(updatedData)
+
+  try {
   const database = await connectDB();
   const result = await database.collection("projects").updateOne(
-    { _id: new ObjectId(req.params.id) },
-    { $set: req.body }
+    { _id: new ObjectId(id) },
+    { $set: updatedData }
   );
+
+   if (result.matchedCount === 0) {
+          return res.status(404).send({ message: "Project not found" });
+        }
+
+        
   res.send(result);
+
+  } catch (err) {
+    res.send(err.message);
+  }
+
+
 });
 
 app.delete("/projects/:id", async (req, res) => {
